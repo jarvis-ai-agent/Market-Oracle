@@ -1,133 +1,129 @@
-// Market Oracle — TypeScript Types
-
 export interface OHLCVBar {
-  date: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  adjClose: number;
-  volume: number;
+  date: string
+  open: number
+  high: number
+  low: number
+  close: number
+  adjClose: number
+  volume: number
 }
 
 export interface ForecastResult {
-  point: number[];
-  q10: number[];
-  q50: number[];
-  q90: number[];
-  horizon: number;
-  source: 'timesfm' | 'mock';
+  point: number[]
+  q10: number[]
+  q50: number[]
+  q90: number[]
+  horizon: number
+  source: "timesfm" | "mock"
 }
 
+export type VolatilityRegime = "LOW" | "MEDIUM" | "HIGH" | "EXTREME"
+
 export interface VolatilityData {
-  symbol: string;
-  dates: string[];
-  rv5: number[];
-  rv10: number[];
-  rv20: number[];
-  lastRV: number;
-  regime: 'LOW' | 'MEDIUM' | 'HIGH' | 'EXTREME';
-  autocorrelation: number;
-  forecast: ForecastResult;
+  symbol: string
+  dates: string[]
+  rv5: number[]
+  rv10: number[]
+  rv20: number[]
+  lastRV: number
+  regime: VolatilityRegime
+  autocorrelation: number
+  forecast: ForecastResult
 }
 
 export interface TickerOverview {
-  symbol: string;
-  name: string;
-  description: string;
-  sector: string;
-  industry: string;
-  exchange: string;
-  currency: string;
-  country: string;
-  marketCap: string;
-  price: string;
-  change: string;
-  changePct: string;
-  volume: string;
-  previousClose: string;
-  high52week: string;
-  low52week: string;
-  pe: string;
-  forwardPE: string;
-  evToEbitda: string;
-  priceToBook: string;
-  eps: string;
-  dividendYield: string;
-  beta: string;
-  analystTargetPrice: string;
-  analystRatingBuy: string;
-  analystRatingHold: string;
-  analystRatingSell: string;
-  revenueGrowthYOY: string;
-  earningsGrowthYOY: string;
-  profitMargin: string;
-  ma50: string;
-  ma200: string;
-  nextEarnings: string;
+  symbol: string
+  name: string
+  description: string
+  sector: string
+  industry: string
+  exchange: string
+  currency: string
+  country: string
+  marketCap: number
+  price: number
+  change: number
+  changePct: number
+  volume: number
+  previousClose: number
+  high52week: number
+  low52week: number
+  pe: number | null
+  forwardPE: number | null
+  evToEbitda: number | null
+  priceToBook: number | null
+  eps: number | null
+  dividendYield: number | null
+  beta: number | null
+  analystTargetPrice: number | null
+  analystRatingBuy: number
+  analystRatingHold: number
+  analystRatingSell: number
+  revenueGrowthYOY: number | null
+  earningsGrowthYOY: number | null
+  profitMargin: number | null
+  ma50: number | null
+  ma200: number | null
+  nextEarnings: string | null
 }
 
 export interface TechnicalDataPoint {
-  date: string;
-  [key: string]: number | string;
+  date: string
+  [key: string]: number | string
 }
 
 export interface TechnicalIndicators {
-  symbol: string;
-  rsi: TechnicalDataPoint[];
-  macd: TechnicalDataPoint[];
-  bbands: TechnicalDataPoint[];
-  atr: TechnicalDataPoint[];
-  ema20: TechnicalDataPoint[];
-  ema50: TechnicalDataPoint[];
-  ema200: TechnicalDataPoint[];
+  symbol: string
+  rsi: TechnicalDataPoint[]
+  macd: TechnicalDataPoint[]
+  bbands: TechnicalDataPoint[]
+  atr: TechnicalDataPoint[]
+  ema20: TechnicalDataPoint[]
+  ema50: TechnicalDataPoint[]
+  ema200: TechnicalDataPoint[]
 }
 
 export interface NewsArticle {
-  title: string;
-  url: string;
-  source: string;
-  publishedAt: string;
-  summary: string;
-  overallSentimentScore: number;
-  overallSentimentLabel: string;
-  tickerSentimentScore: number | null;
-  tickerSentimentLabel: string | null;
-  relevanceScore: number | null;
+  title: string
+  url: string
+  source: string
+  publishedAt: string
+  summary: string
+  overallSentimentScore: number
+  overallSentimentLabel: string
+  tickerSentimentScore: number
+  tickerSentimentLabel: string
+  relevanceScore: number
 }
 
 export interface NewsData {
-  symbol: string;
-  articles: NewsArticle[];
+  symbol: string
+  articles: NewsArticle[]
   aggregateSentiment: {
-    score: number;
-    label: string;
-    count: number;
-  };
+    score: number
+    label: string
+    count: number
+  }
+}
+
+export interface MacroMetric {
+  date: string
+  value: number
 }
 
 export interface MacroData {
-  vix: { date: string; value: string };
-  spx: { date: string; value: string };
-  comp: { date: string; value: string };
-  fedRate: { date: string; value: string };
-  treasury10y: { date: string; value: string };
+  vix: MacroMetric
+  spx: MacroMetric
+  comp: MacroMetric
+  fedRate: MacroMetric
+  treasury10y: MacroMetric
 }
 
 export interface SearchResult {
-  symbol: string;
-  name: string;
-  type: string;
-  region: string;
-  currency: string;
-  matchScore: number;
+  symbol: string
+  name: string
+  type: string
+  region: string
+  currency: string
+  matchScore: number
 }
-
-export type VolRegime = 'LOW' | 'MEDIUM' | 'HIGH' | 'EXTREME';
-
-export const REGIME_COLORS: Record<VolRegime, string> = {
-  LOW: '#10B981',
-  MEDIUM: '#F59E0B',
-  HIGH: '#F97316',
-  EXTREME: '#EF4444',
-};

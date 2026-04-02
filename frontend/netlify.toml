@@ -1,2 +1,0 @@
-# Build configuration is in the root netlify.toml (base = "frontend").
-# This file is intentionally minimal to avoid conflicts.

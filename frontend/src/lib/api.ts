@@ -6,42 +6,37 @@ import type {
   NewsData,
   MacroData,
   SearchResult,
-} from './types';
+} from "./types"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://market-oracle-api-production.up.railway.app';
+const BASE_URL = "https://market-oracle-api-production.up.railway.app"
 
-async function apiFetch<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    next: { revalidate: 60 },
-  });
+async function fetchJSON<T>(url: string): Promise<T> {
+  const res = await fetch(url)
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: res.statusText }));
-    throw new Error(err.detail || `API error: ${res.status}`);
+    throw new Error(`API error ${res.status}: ${res.statusText}`)
   }
-  return res.json();
+  return res.json() as Promise<T>
 }
 
-export const fetchOverview = (symbol: string) =>
-  apiFetch<TickerOverview>(`/api/ticker/${symbol}/overview`);
+export const api = {
+  getOverview: (symbol: string) =>
+    fetchJSON<TickerOverview>(`${BASE_URL}/api/ticker/${symbol}/overview`),
 
-export const fetchOHLCV = (symbol: string, outputsize: 'compact' | 'full' = 'compact') =>
-  apiFetch<{ symbol: string; bars: OHLCVBar[] }>(`/api/ticker/${symbol}/ohlcv?outputsize=${outputsize}`);
+  getOHLCV: (symbol: string) =>
+    fetchJSON<OHLCVBar[]>(`${BASE_URL}/api/ticker/${symbol}/ohlcv?outputsize=compact`),
 
-export const fetchVolatility = (symbol: string, horizon = 5) =>
-  apiFetch<VolatilityData>(`/api/ticker/${symbol}/volatility?horizon=${horizon}`);
+  getVolatility: (symbol: string) =>
+    fetchJSON<VolatilityData>(`${BASE_URL}/api/ticker/${symbol}/volatility?horizon=5`),
 
-export const fetchTechnicals = (symbol: string) =>
-  apiFetch<TechnicalIndicators>(`/api/ticker/${symbol}/technicals`);
+  getTechnicals: (symbol: string) =>
+    fetchJSON<TechnicalIndicators>(`${BASE_URL}/api/ticker/${symbol}/technicals`),
 
-export const fetchNews = (symbol: string, limit = 20) =>
-  apiFetch<NewsData>(`/api/ticker/${symbol}/news?limit=${limit}`);
+  getNews: (symbol: string) =>
+    fetchJSON<NewsData>(`${BASE_URL}/api/ticker/${symbol}/news?limit=20`),
 
-export const fetchMacro = () =>
-  apiFetch<MacroData>('/api/macro');
+  getMacro: () =>
+    fetchJSON<MacroData>(`${BASE_URL}/api/macro`),
 
-export const searchTickers = async (q: string): Promise<SearchResult[]> => {
-  if (!q || q.length < 1) return [];
-  const data = await apiFetch<{ results: SearchResult[] }>(`/api/search?q=${encodeURIComponent(q)}`);
-  return data.results;
-};
+  search: (query: string) =>
+    fetchJSON<SearchResult[]>(`${BASE_URL}/api/search?q=${encodeURIComponent(query)}`),
+}
