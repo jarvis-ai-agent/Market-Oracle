@@ -22,9 +22,15 @@ function getSentimentClass(label: string): string {
   return "text-[#71717a] border-[#1f1f23] bg-[#1f1f23]"
 }
 
+function parseAVDate(dateStr: string): Date {
+  // AlphaVantage format: "20260402T160945" → "2026-04-02T16:09:45"
+  const s = dateStr.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/, "$1-$2-$3T$4:$5:$6")
+  return new Date(s)
+}
+
 function formatRelativeTime(dateStr: string): string {
   try {
-    const date = new Date(dateStr)
+    const date = parseAVDate(dateStr)
     const now = new Date()
     const diffMs = now.getTime() - date.getTime()
     const diffH = Math.floor(diffMs / (1000 * 60 * 60))
