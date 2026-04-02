@@ -10,6 +10,7 @@ import {
   Legend,
   ReferenceLine,
 } from "recharts"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -25,12 +26,14 @@ interface FinancialsPanelProps {
 
 const tickStyle = { fill: "#71717a", fontSize: 9, fontFamily: "JetBrains Mono" }
 
-function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: unknown; color: string }>; label?: string }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload || payload.length === 0) return null
   return (
     <div className="bg-[#111113] border border-[#1f1f23] rounded p-2 text-xs space-y-1">
       <p className="text-[#71717a]">{label}</p>
-      {payload.map((p) => (
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {payload.map((p: any) => (
         <p key={p.name} className="font-mono" style={{ color: p.color }}>
           {p.name}: {typeof p.value === "number" ? formatLargeNumber(p.value) : "—"}
         </p>
