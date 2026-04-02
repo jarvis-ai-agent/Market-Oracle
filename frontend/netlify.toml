@@ -4,6 +4,13 @@
 
 [build.environment]
   NEXT_PUBLIC_API_URL = "https://market-oracle-api-production.up.railway.app"
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*"
