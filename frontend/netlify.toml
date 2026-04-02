@@ -5,6 +5,8 @@
 [build.environment]
   NEXT_PUBLIC_API_URL = "https://market-oracle-api-production.up.railway.app"
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--version"
 
 [[headers]]
   for = "/*"
