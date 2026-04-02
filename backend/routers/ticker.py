@@ -91,8 +91,15 @@ async def get_volatility(symbol: str, horizon: int = 5):
         regime = get_regime(last_rv)
         autocorr = compute_autocorrelation(rv_20)
 
-        # Forecast (mock until Modal tokens configured)
-        forecast = mock_forecast(rv_20, horizon=horizon)
+        # Forecast — use real TimesFM via Modal if configured, else mock
+        try:
+            import sys
+            sys.path.insert(0, "/Users/jarvis/market-oracle-build/modal")
+            from client import get_forecast
+            modal_result = get_forecast(rv_20, horizon=horizon)
+            forecast = modal_result if modal_result else mock_forecast(rv_20, horizon=horizon)
+        except Exception:
+            forecast = mock_forecast(rv_20, horizon=horizon)
 
         return {
             "symbol": symbol.upper(),
