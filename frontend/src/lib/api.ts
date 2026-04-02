@@ -23,7 +23,8 @@ export const api = {
     fetchJSON<TickerOverview>(`${BASE_URL}/api/ticker/${symbol}/overview`),
 
   getOHLCV: (symbol: string) =>
-    fetchJSON<OHLCVBar[]>(`${BASE_URL}/api/ticker/${symbol}/ohlcv?outputsize=compact`),
+    fetchJSON<{ symbol: string; bars: OHLCVBar[] }>(`${BASE_URL}/api/ticker/${symbol}/ohlcv?outputsize=compact`)
+      .then((r) => r.bars),
 
   getVolatility: (symbol: string) =>
     fetchJSON<VolatilityData>(`${BASE_URL}/api/ticker/${symbol}/volatility?horizon=5`),
